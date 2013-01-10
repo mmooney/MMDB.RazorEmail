@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MMDB.Shared</id>
+    <version>2.0.0.15</version>
+    <title>MMDB.Shared</title>
+    <authors>MMDB Solutions,  LLC</authors>
+    <owners>MMDB Solutions,  LLC</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MMDB Shared Library</description>
+    <copyright>Copyright ©  2011 MMDB Solutions, LLC</copyright>
+    <references>
+      <reference file="MMDB.Shared.dll" />
+    </references>
+  </metadata>
+</package>
