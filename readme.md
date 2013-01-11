@@ -1,6 +1,6 @@
 # MMDB Razor Email #
 
-## Format your object with Razor and send it via email in one line of code, from any .NET app.##
+## Format an object into HTML with Razor and send it via email in one line of code, from any .NET app.##
 
 NuGet: http://nuget.org/packages/MMDB.RazorEmail
 
