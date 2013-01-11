@@ -65,6 +65,11 @@ Want your unit tests to verify that the right emails are being sent, without act
     mockEmailSender.Verify(i => i.SendEmail("This is the subject", "Hello <b>Mike Mooney</b>!", It.IsAny<IEnumerable<MailAddress>>(), It.IsAny<MailAddress>()), Times.Once());
 ```
 
+**Sample App**
+
+We've included a working sample app you can play with:
+<img src="https://raw.github.com/mmooney/MMDB.RazorEmail/master/SampleAppScreenShot.png"></img>
+
 **FAQ**
 * Can I used this outside a MVC application?
     * Absolutely. We wrote this specifically so we could use it in a Windows service.
