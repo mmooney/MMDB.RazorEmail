@@ -24,6 +24,15 @@ namespace MMDB.RazorEmail
 			}
 		}
 
+		public RazorEmailEngine()
+		{
+			this.EmailSender = new EmailSender();
+		}
+
+		public RazorEmailEngine(EmailServerSettings settings)
+		{
+			this.EmailSender = new EmailSender(settings);
+		}
 
 		public RazorEmailEngine(EmailSender emailSender)
 		{

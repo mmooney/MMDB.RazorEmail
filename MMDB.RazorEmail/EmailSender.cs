@@ -31,17 +31,8 @@ namespace MMDB.RazorEmail
 
 		public virtual void SendEmail(string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, params EmailAttachmentData[] attachments)
 		{
-			int port = this.EmailServerSettings.Port.GetValueOrDefault(25);
-			using (var smtpClient = new SmtpClient(this.EmailServerSettings.Host, port))
+			using (var smtpClient = GetSmtpClient())
 			{
-				if (!string.IsNullOrEmpty(this.EmailServerSettings.UserName))
-				{
-					var credential = new NetworkCredential(this.EmailServerSettings.UserName, this.EmailServerSettings.Password);
-					credential.GetCredential(smtpClient.Host, port, "Basic");
-					smtpClient.UseDefaultCredentials = false;
-					smtpClient.Credentials = credential;
-				}
-
 				var message = new MailMessage();
 				message.From = fromAddress;
 				message.Body = body;
@@ -66,6 +57,27 @@ namespace MMDB.RazorEmail
 				}
 
 				smtpClient.Send(message);
+			}
+		}
+
+		private SmtpClient GetSmtpClient()
+		{
+			if(this.EmailServerSettings == null)
+			{
+				return new SmtpClient();
+			}
+			else 
+			{
+				int port = this.EmailServerSettings.Port.GetValueOrDefault(25);
+				var smtpClient = new SmtpClient(this.EmailServerSettings.Host, port);
+				if (!string.IsNullOrEmpty(this.EmailServerSettings.UserName))
+				{
+					var credential = new NetworkCredential(this.EmailServerSettings.UserName, this.EmailServerSettings.Password);
+					credential.GetCredential(smtpClient.Host, port, "Basic");
+					smtpClient.UseDefaultCredentials = false;
+					smtpClient.Credentials = credential;
+				}
+				return smtpClient;
 			}
 		}
 	}
