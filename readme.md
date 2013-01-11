@@ -85,3 +85,5 @@ MMDB.RazorEmail makes use of the following open source projects:
 We also used the following in our testing:
 * moq: http://code.google.com/p/moq/
 * NUnit: http://www.nunit.org/
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/35e594150e77d8d015064dadab40dff4 "githalytics.com")](http://githalytics.com/mmooney/MMDB.RazorEmail)
