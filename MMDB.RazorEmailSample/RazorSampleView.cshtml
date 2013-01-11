@@ -1,0 +1,26 @@
+﻿@model dynamic
+<html>
+	<head>Employee Report (@Model.ReportDate.ToString())</head>
+	<body>
+		<h1>Employee Report (@Model.ReportDate.ToString())</h1>
+		@foreach(var department in @Model.DepartmentList)
+		{
+			<h2>@department.DepartmentName</h2>
+			<h3>Employees:</h3>
+			<table style="border:1px solid blue">
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+				</tr>
+			@foreach(var employee in department.EmployeeList)
+			{
+				<tr>
+					<td>@employee.FirstName</td>
+					<td>@employee.LastName</td>
+				</tr>
+			}
+			</table>
+		}
+	</body>
+
+</html>
