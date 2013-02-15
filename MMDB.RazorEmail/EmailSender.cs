@@ -11,7 +11,7 @@ namespace MMDB.RazorEmail
 {
 	public class EmailSender
 	{
-		public EmailServerSettings EmailServerSettings { get; set; }
+		private EmailServerSettings EmailServerSettings { get; set; }
 
 		public EmailSender()
 		{
@@ -24,14 +24,24 @@ namespace MMDB.RazorEmail
 
 		public virtual void SendEmail(string subject, string body, IEnumerable<string> toAddressList, string fromAddress, params EmailAttachmentData[] attachments)
 		{
+			this.SendEmail(this.EmailServerSettings, subject, body, toAddressList, fromAddress, attachments);
+		}
+
+		private void SendEmail(EmailServerSettings emailServerSettings, string subject, string body, IEnumerable<string> toAddressList, string fromAddress, EmailAttachmentData[] attachments)
+		{
 			var toList = toAddressList.Select(i => new MailAddress(i));
 			var from = new MailAddress(fromAddress);
-			this.SendEmail(subject, body, toList, from, attachments);
+			this.SendEmail(emailServerSettings, subject, body, toList, from, attachments);
 		}
 
 		public virtual void SendEmail(string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, params EmailAttachmentData[] attachments)
 		{
-			using (var smtpClient = GetSmtpClient())
+			this.SendEmail(this.EmailServerSettings, subject, body, toAddressList, fromAddress, attachments);
+		}
+
+		public virtual void SendEmail(EmailServerSettings settings, string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, params EmailAttachmentData[] attachments)
+		{
+			using (var smtpClient = GetSmtpClient(settings))
 			{
 				var message = new MailMessage();
 				message.From = fromAddress;
@@ -60,19 +70,23 @@ namespace MMDB.RazorEmail
 			}
 		}
 
-		private SmtpClient GetSmtpClient()
+		private SmtpClient GetSmtpClient(EmailServerSettings emailServerSettings)
 		{
-			if(this.EmailServerSettings == null)
+			if(emailServerSettings == null)
+			{
+				emailServerSettings = this.EmailServerSettings;
+			}
+			if(emailServerSettings == null)
 			{
 				return new SmtpClient();
 			}
 			else 
 			{
-				int port = this.EmailServerSettings.Port.GetValueOrDefault(25);
-				var smtpClient = new SmtpClient(this.EmailServerSettings.Host, port);
-				if (!string.IsNullOrEmpty(this.EmailServerSettings.UserName))
+				int port = emailServerSettings.Port.GetValueOrDefault(25);
+				var smtpClient = new SmtpClient(emailServerSettings.Host, port);
+				if (!string.IsNullOrEmpty(emailServerSettings.UserName))
 				{
-					var credential = new NetworkCredential(this.EmailServerSettings.UserName, this.EmailServerSettings.Password);
+					var credential = new NetworkCredential(emailServerSettings.UserName, emailServerSettings.Password);
 					credential.GetCredential(smtpClient.Host, port, "Basic");
 					smtpClient.UseDefaultCredentials = false;
 					smtpClient.Credentials = credential;

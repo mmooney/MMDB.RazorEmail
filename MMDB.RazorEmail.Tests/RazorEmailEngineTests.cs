@@ -58,7 +58,7 @@ namespace MMDB.RazorEmail.Tests
 			var testData = TestData.Setup();
 			testData.EmailEngine.SendEmail(testData.Subject, testData.Model, "test", testData.ToAddressList, testData.FromAddress);
 
-			testData.EmailSender.Verify(i => i.SendEmail(testData.Subject, "test", testData.ToAddressList, testData.FromAddress), Times.Once());
+			testData.EmailSender.Verify(i => i.SendEmail(null, testData.Subject, "test", testData.ToAddressList, testData.FromAddress), Times.Once());
 		}
 
 		[Test]
@@ -67,7 +67,7 @@ namespace MMDB.RazorEmail.Tests
 			var testData = TestData.Setup();
 			testData.EmailEngine.SendEmail(testData.Subject, testData.Model, "<html>@(123+1)</html>", testData.ToAddressList, testData.FromAddress);
 
-			testData.EmailSender.Verify(i => i.SendEmail(testData.Subject, "<html>124</html>", testData.ToAddressList, testData.FromAddress), Times.Once());
+			testData.EmailSender.Verify(i => i.SendEmail(null, testData.Subject, "<html>124</html>", testData.ToAddressList, testData.FromAddress), Times.Once());
 		}
 
 		[Test]
@@ -78,7 +78,7 @@ namespace MMDB.RazorEmail.Tests
 			string expectedBody = razorView.Replace("@Model.StringValue", testData.Model.StringValue);
 			testData.EmailEngine.SendEmail(testData.Subject, testData.Model, razorView, testData.ToAddressList, testData.FromAddress);
 
-			testData.EmailSender.Verify(i => i.SendEmail(testData.Subject, expectedBody, testData.ToAddressList, testData.FromAddress), Times.Once());
+			testData.EmailSender.Verify(i => i.SendEmail(null, testData.Subject, expectedBody, testData.ToAddressList, testData.FromAddress), Times.Once());
 		}
 	}
 }
