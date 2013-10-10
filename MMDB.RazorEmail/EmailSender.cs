@@ -9,7 +9,7 @@ using MMDB.Shared;
 
 namespace MMDB.RazorEmail
 {
-	public class EmailSender
+	public class EmailSender : IEmailSender
 	{
 		private EmailServerSettings EmailServerSettings { get; set; }
 

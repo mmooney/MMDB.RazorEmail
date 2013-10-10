@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MMDB.RazorEmail
 {
-	public class RazorEmailEngine
+	public class RazorEmailEngine : IRazorEmailEngine
 	{
 		private EmailSender EmailSender { get; set; }
 

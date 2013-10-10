@@ -24,7 +24,7 @@ namespace MMDB.RazorEmail.Tests
 			public List<MailAddress> ToAddressList { get; set; }
 			public MailAddress FromAddress { get; set; }
 			public SampleModel Model { get; set; }
-			public RazorEmailEngine EmailEngine { get; set; }
+			public IRazorEmailEngine EmailEngine { get; set; }
 
 			public static TestData Setup(int toAddressCount = 1)
 			{

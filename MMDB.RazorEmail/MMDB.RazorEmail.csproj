@@ -58,11 +58,15 @@
     <Compile Include="EmailSender.cs" />
     <Compile Include="EmailServerSettings.cs" />
     <Compile Include="FakeEmailSender.cs" />
+    <Compile Include="IEmailSender.cs" />
+    <Compile Include="IRazorEmailEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorEmailEngine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MMDB.RazorEmail.nuspec" />
+    <None Include="MMDB.RazorEmail.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
