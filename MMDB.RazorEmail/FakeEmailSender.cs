@@ -16,5 +16,15 @@ namespace MMDB.RazorEmail
 		{
 			//Do nothing
 		}
-	}
+
+        public void SendEmail(string subject, string body, IEnumerable<string> toAddressList, string fromAddress, bool bodyHtml, params EmailAttachmentData[] attachments)
+        {
+            //Do nothing
+        }
+
+        public void SendEmail(string subject, string body, IEnumerable<System.Net.Mail.MailAddress> toAddressList, bool bodyHtml, System.Net.Mail.MailAddress fromAddress, params EmailAttachmentData[] attachments)
+        {
+            //Do nothing
+        }
+    }
 }

@@ -31,23 +31,33 @@ namespace MMDB.RazorEmail
 		{
 			var toList = toAddressList.Select(i => new MailAddress(i));
 			var from = new MailAddress(fromAddress);
-			this.SendEmail(emailServerSettings, subject, body, toList, from, attachments);
+			this.InternalSendEmail(emailServerSettings, subject, body, toList, from, false, attachments);
 		}
 
 		public virtual void SendEmail(string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, params EmailAttachmentData[] attachments)
 		{
-			this.SendEmail(this.EmailServerSettings, subject, body, toAddressList, fromAddress, attachments);
+			this.InternalSendEmail(this.EmailServerSettings, subject, body, toAddressList, fromAddress, false, attachments);
 		}
 
-		public virtual void SendEmail(EmailServerSettings settings, string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, params EmailAttachmentData[] attachments)
-		{
+        public virtual void SendEmail(EmailServerSettings settings, string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, params EmailAttachmentData[] attachments)
+        {
+            this.InternalSendEmail(settings, subject, body, toAddressList, fromAddress, false, attachments);
+        }
+
+        public virtual void SendEmail(EmailServerSettings settings, string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, bool bodyHtml, params EmailAttachmentData[] attachments)
+        {
+            this.InternalSendEmail(settings, subject, body, toAddressList, fromAddress, bodyHtml, attachments);
+        }
+
+        private void InternalSendEmail(EmailServerSettings settings, string subject, string body, IEnumerable<MailAddress> toAddressList, MailAddress fromAddress, bool bodyHtml, params EmailAttachmentData[] attachments)
+        {
 			using (var smtpClient = GetSmtpClient(settings))
 			{
 				var message = new MailMessage();
 				message.From = fromAddress;
 				message.Body = body;
 				message.Subject = subject;
-				message.IsBodyHtml = true;
+				message.IsBodyHtml = bodyHtml;
 				foreach (var toAddress in toAddressList)
 				{
 					message.To.Add(toAddress);
@@ -94,5 +104,18 @@ namespace MMDB.RazorEmail
 				return smtpClient;
 			}
 		}
-	}
+
+
+        public void SendEmail(string subject, string body, IEnumerable<string> toAddressList, string fromAddress, bool bodyHtml, params EmailAttachmentData[] attachments)
+        {
+            var toList = toAddressList.Select(i => new MailAddress(i));
+            var from = new MailAddress(fromAddress);
+            this.InternalSendEmail(this.EmailServerSettings, subject, body, toList, from, bodyHtml, attachments);
+        }
+
+        public void SendEmail(string subject, string body, IEnumerable<MailAddress> toAddressList, bool bodyHtml, MailAddress fromAddress, params EmailAttachmentData[] attachments)
+        {
+            this.InternalSendEmail(this.EmailServerSettings, subject, body, toAddressList, fromAddress, bodyHtml, attachments);
+        }
+    }
 }
